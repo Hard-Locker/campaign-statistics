@@ -43,19 +43,24 @@ public class SPCampaignStatistic extends CampaignStatistic<SPCampaignStatistic> 
 
   @Override
   public SPCampaignStatistic add(SPCampaignStatistic other) {
-    this.incrementCounter();
+    // Create a new object with the current values
+    SPCampaignStatistic combined = new SPCampaignStatistic();
+    combined.setProfileId(this.profileId);
+    combined.setPortfolioId(this.portfolioId);
+    combined.setDate(this.date);
+    combined.setCampaignId(this.campaignId);
+    combined.setCampaignName(this.campaignName);
+    combined.setState(this.state);
 
-    this.checkNameAndDate(other);
-    this.checkStatusAndDate(other);
+    // Add values ​​from the current object and another object
+    combined.setClicks(this.clicks + other.getClicks());
+    combined.setCost(this.cost.add(other.getCost()).round(ROUND));
+    combined.setImpressions(this.impressions + other.getImpressions());
+    combined.setSales(this.sales.add(other.getSales()).round(ROUND));
+    combined.setPurchases(this.purchases + other.getPurchases());
+    combined.setPurchasesSameSku(this.purchasesSameSku + other.getPurchasesSameSku());
 
-    this.clicks += other.getClicks();
-    this.cost = this.cost.add(other.getCost()).round(ROUND);
-    this.impressions += other.getImpressions();
-    this.sales = this.sales.add(other.getSales()).round(ROUND);
-    this.purchases += other.getPurchases();
-    this.purchasesSameSku += other.getPurchasesSameSku();
-
-    return this;
+    return combined;
   }
 
   @Override
